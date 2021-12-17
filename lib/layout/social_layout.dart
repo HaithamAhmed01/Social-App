@@ -71,7 +71,7 @@ class SocialLayout extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 24,
                         child: CircleAvatar(
-                          radius: 21.0,
+                          radius: 22.0,
                           backgroundImage:
                               NetworkImage('${cubit.userModel!.image}'),
                         ),

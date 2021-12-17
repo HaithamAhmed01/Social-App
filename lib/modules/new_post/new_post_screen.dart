@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/shared/components/componets.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewPostScreen extends StatelessWidget {
   var textController = TextEditingController();
@@ -12,15 +12,17 @@ class NewPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialStates>(
       listener: (context, state) {
-
+        if (state is SocialCreatePostSuccessState &&
+            SocialCubit.get(context).postImage != null) {
+          SocialCubit.get(context).removePostImage();
+          textController.clear();
+          Navigator.pop(context);
+        }
       },
       builder: (context, state) {
         return Scaffold(
           appBar:
-              defaultAppBar(
-                  context: context,
-                  title: 'Create Post',
-                  actions: [
+              defaultAppBar(context: context, title: 'Create Post', actions: [
             defaultTextButton(
                 function: () {
                   var now = DateTime.now();

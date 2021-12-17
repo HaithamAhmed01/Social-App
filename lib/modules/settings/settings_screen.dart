@@ -4,6 +4,7 @@ import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/edit_profile/edit_screen.dart';
+import 'package:social_app/modules/new_post/new_post_screen.dart';
 import 'package:social_app/shared/adaptive/adaptivw_indicator.dart';
 import 'package:social_app/shared/components/componets.dart';
 import 'package:social_app/shared/components/constants.dart';
@@ -166,8 +167,10 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () {},
-                        child: Text('Add Photos'),
+                        onPressed: () {
+                          navigateTo(context, NewPostScreen());
+                        },
+                        child: Text('Add Post'),
                       ),
                     ),
                     SizedBox(
