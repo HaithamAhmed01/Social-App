@@ -302,7 +302,7 @@ class FeedsScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 18,
                             backgroundImage: NetworkImage(
-                              'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+                              '${SocialCubit.get(context).userModel!.image}',
                             ),
                           ),
                           SizedBox(
