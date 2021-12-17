@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/social_layout.dart';
 import 'package:social_app/modules/social_register/cubit/cubit.dart';
 import 'package:social_app/modules/social_register/cubit/states.dart';
@@ -7,6 +8,7 @@ import 'package:social_app/shared/components/componets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:social_app/shared/components/constants.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
 
 
 class SocialRegisterScreen extends StatelessWidget {
@@ -23,10 +25,21 @@ class SocialRegisterScreen extends StatelessWidget {
       child: BlocConsumer<SocialRegisterCubit, SocialRegisterStates>(
         listener: (context, state) {
           if (state is SocialCreateUserSuccessState) {
-            navigateAndFinish(
-              context,
-              SocialLayout(),
-            );
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then((value) async {
+              SocialCubit.get(context).getPosts();
+              SocialCubit.get(context).getUserData();
+              showToast(
+                text: 'Welcome in Social App',
+                state: ToastStates.SUCCESS,
+              );
+              navigateAndFinish(
+                context,
+                SocialLayout(),
+              );
+            });
           }
         },
         builder: (context, state) {

@@ -102,7 +102,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                     );
                                     messageController.clear();
                                   },
-                                  color: Colors.blue,
+                                  color: defaultColor,
                                   elevation: 10,
                                   minWidth: 1,
                                   child: Icon(
@@ -157,7 +157,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                       );
                                       messageController.clear();
                                     },
-                                    color: Colors.blue,
+                                    color: defaultColor,
                                     elevation: 10,
                                     minWidth: 1,
                                     child: Icon(

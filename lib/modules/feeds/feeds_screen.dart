@@ -116,7 +116,7 @@ class FeedsScreen extends StatelessWidget {
                             ),
                             Icon(
                               Icons.check_circle,
-                              color: defaultColor,
+                              color: Colors.blue,
                               size: 16.0,
                             ),
                           ],

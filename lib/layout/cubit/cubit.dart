@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/models/social_app/comment_model.dart';
 import 'package:social_app/models/social_app/message_model.dart';
@@ -18,18 +20,17 @@ import 'package:social_app/modules/users/users_screen.dart';
 import 'package:social_app/shared/components/componets.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SocialCubit extends Cubit<SocialStates> {
   SocialCubit() : super(SocialInitialState());
 
   static SocialCubit get(context) => BlocProvider.of(context);
 
-  SocialUserModel? userModel;// ==> my json model that i use to receive data from Firestore
+  SocialUserModel?
+      userModel; // ==> my json model that i use to receive data from Firestore
 
   void getUserData() {
-    uId = CacheHelper.getData(key: 'uId') ;
+    uId = CacheHelper.getData(key: 'uId');
     emit(SocialGetUserLoadingState());
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
       userModel = SocialUserModel.fromJson(value.data()!);
@@ -59,14 +60,11 @@ class SocialCubit extends Cubit<SocialStates> {
   ];
 
   void changeBottomNav(int index) {
-    if(index == 4) getUserData();
-    if (index == 1) {
-      getUsers();
-      getUserData();
-    }
-    if (index == 2)
+    if (index == 1) getUsers();
+    if (index == 4) getUserData();
+    if (index == 2) {
       emit(SocialNewPostState());
-    else {
+    } else {
       currentIndex = index;
       emit(SocialChangeBottomNavState());
     }
@@ -431,12 +429,12 @@ class SocialCubit extends Cubit<SocialStates> {
     await FirebaseAuth.instance.signOut().then((value) {
       users = [];
       messages = [];
-      posts=[];
-      postsId=[];
-      likes=[];
+      posts = [];
+      postsId = [];
+      likes = [];
       profileImage = null;
       coverImage = null;
-      userModel=null;
+      userModel = null;
       uId = '';
       CacheHelper.removeData(key: 'uId');
       navigateAndFinish(context, SocialLoginScreen());

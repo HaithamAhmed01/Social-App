@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/edit_profile/edit_screen.dart';
@@ -6,8 +8,6 @@ import 'package:social_app/shared/adaptive/adaptivw_indicator.dart';
 import 'package:social_app/shared/components/componets.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_conditional_rendering/conditional.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -24,7 +24,8 @@ class SettingsScreen extends StatelessWidget {
         var coverImage = SocialCubit.get(context).coverImage;
         return Conditional.single(
           context: context,
-          conditionBuilder:(context) =>SocialCubit.get(context).userModel != null ,
+          conditionBuilder: (context) =>
+              SocialCubit.get(context).userModel != null,
           widgetBuilder: (context) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -60,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 64,
                         backgroundColor:
-                        Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(context).scaffoldBackgroundColor,
                         child: CircleAvatar(
                           radius: 60,
                           backgroundImage: profileImage == null
@@ -169,16 +170,52 @@ class SettingsScreen extends StatelessWidget {
                         child: Text('Add Photos'),
                       ),
                     ),
-                    SizedBox(width: 10,),
-                    OutlinedButton(onPressed: () {
-                      navigateTo(context, EditProfileScreen());
-                    }, child: Icon(IconBroken.Edit,size: 16,))
+                    SizedBox(
+                      width: 10,
+                    ),
+                    OutlinedButton(
+                        onPressed: () {
+                          navigateTo(context, EditProfileScreen());
+                        },
+                        child: Icon(
+                          IconBroken.Edit,
+                          size: 16,
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    OutlinedButton(
+                        onPressed: () {
+                          SocialCubit.get(context).logOut(context);
+                        },
+                        child: Icon(
+                          IconBroken.Logout,
+                          size: 16,
+                        )),
                   ],
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                // ListTile(
+                //   title: Text(
+                //     'Logout',
+                //     style: TextStyle(color: defaultColor),
+                //   ),
+                //   // style: ListTileStyle.drawer,
+                //   leading: Icon(
+                //     IconBroken.Logout,
+                //     color: defaultColor,
+                //   ),
+                //   onTap: () {
+                //     SocialCubit.get(context).logOut(context);
+                //   },
+                // ),
               ],
             ),
           ),
-          fallbackBuilder: (context) => Center(child: AdaptiveIndicator(
+          fallbackBuilder: (context) => Center(
+              child: AdaptiveIndicator(
             os: getOS(),
           )),
         );

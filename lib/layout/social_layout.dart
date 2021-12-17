@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/modules/edit_profile/edit_screen.dart';
 import 'package:social_app/modules/new_post/new_post_screen.dart';
+import 'package:social_app/shared/adaptive/adaptivw_indicator.dart';
 import 'package:social_app/shared/components/componets.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SocialLayout extends StatelessWidget {
   @override
@@ -46,20 +48,40 @@ class SocialLayout extends StatelessWidget {
           appBar: AppBar(
             title: Text(cubit.titles[cubit.currentIndex]),
             actions: [
-              IconButton(
-                icon: Icon(IconBroken.Notification),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(IconBroken.Search),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(IconBroken.Logout),
-                onPressed: () {
-                  // signOut(context);
-                  cubit.logOut(context);
-                },
+              // IconButton(
+              //   icon: Icon(IconBroken.Notification),
+              //   onPressed: () {},
+              // ),
+              // IconButton(
+              //   icon: Icon(IconBroken.Search),
+              //   onPressed: () {},
+              // ),
+              // IconButton(
+              //   icon: Icon(IconBroken.Logout),
+              //   onPressed: () {
+              //     // signOut(context);
+              //     cubit.logOut(context);
+              //   },
+              // ),
+              cubit.userModel != null
+                  ? InkWell(
+                      onTap: () {
+                        navigateTo(context, EditProfileScreen());
+                      },
+                      child: CircleAvatar(
+                        radius: 24,
+                        child: CircleAvatar(
+                          radius: 21.0,
+                          backgroundImage:
+                              NetworkImage('${cubit.userModel!.image}'),
+                        ),
+                      ),
+                    )
+                  : AdaptiveIndicator(
+                      os: getOS(),
+                    ),
+              SizedBox(
+                width: 5,
               ),
             ],
           ),

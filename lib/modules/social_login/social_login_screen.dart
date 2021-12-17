@@ -34,6 +34,7 @@ class SocialLoginScreen extends StatelessWidget {
               value: state.uId,
             ).then((value) async {
               SocialCubit.get(context).getPosts();
+              SocialCubit.get(context).getUserData();
               showToast(
                 text: 'Welcome in Social App',
                 state: ToastStates.SUCCESS,
