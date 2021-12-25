@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/shared/components/componets.dart';
@@ -17,6 +18,9 @@ class NewPostScreen extends StatelessWidget {
           SocialCubit.get(context).removePostImage();
           textController.clear();
           Navigator.pop(context);
+        }else if (state is SocialCreatePostSuccessState ){
+          textController.clear();
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -26,14 +30,15 @@ class NewPostScreen extends StatelessWidget {
             defaultTextButton(
                 function: () {
                   var now = DateTime.now();
+                  String formattedDate = DateFormat.MMMEd().add_jm().format(now);
                   if (SocialCubit.get(context).postImage == null) {
                     SocialCubit.get(context).createPost(
-                      dateTime: now.toString(),
+                      dateTime: formattedDate.toString(),
                       text: textController.text,
                     );
                   } else {
                     SocialCubit.get(context).uploadPostImage(
-                      dateTime: now.toString(),
+                      dateTime: formattedDate.toString(),
                       text: textController.text,
                     );
                   }

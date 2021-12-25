@@ -54,6 +54,8 @@ dependencies:
   firebase: ^9.0.1
   firebase_messaging: ^10.0.7
   like_button: ^2.0.4
+  splash_screen_view: ^3.0.0
+  liquid_pull_to_refresh: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,7 +65,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/s.png"
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

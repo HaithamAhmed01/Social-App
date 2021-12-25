@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -268,9 +269,9 @@ class SocialCubit extends Cubit<SocialStates> {
   List<int> comments = [];
 
   void getPosts() {
-    FirebaseFirestore.instance.collection('posts').snapshots().listen((event) {
+    FirebaseFirestore.instance.collection('posts').get().then((value) {
       posts = [];
-      event.docs.forEach((element) {
+      value.docs.forEach((element) {
         element.reference.collection('likes').get().then((value) {
           likes.add(value.docs.length);
           postsId.add(element.id);
@@ -278,24 +279,34 @@ class SocialCubit extends Cubit<SocialStates> {
         }).catchError((error) {});
       });
       emit(SocialGetPostsSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(SocialGetPostsErrorState(error.toString()));
     });
-
-    //   .then((value) {
-    // value.docs.forEach((element) {
-    //   element.reference.collection('likes').get().then((value) {
-    //     likes.add(value.docs.length);
-    //     postsId.add(element.id);
-    //     posts.add(PostModel.fromJson(element.data()));
-    //   }).catchError((error) {});
-    // });
-
-    // }).catchError((error) {
-    //   print(error.toString());
-    //   emit(SocialGetPostsErrorState(error.toString()));
-    // });
+  }
+  Future<void> handleRefresh() {
+    final Completer<void> completer = Completer<void>();
+    Timer(const Duration(seconds: 3), () {
+      completer.complete();
+    });
+    return completer.future.then<void>((_) {
+      FirebaseFirestore.instance.collection('posts').get().then((value) {
+        posts = [];
+        value.docs.forEach((element) {
+          element.reference.collection('likes').get().then((value) {
+            likes.add(value.docs.length);
+            postsId.add(element.id);
+            posts.add(PostModel.fromJson(element.data()));
+          }).catchError((error) {});
+        });
+        emit(SocialGetPostsSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(SocialGetPostsErrorState(error.toString()));
+      });
+    });
   }
 
-// create likes
   void likePost(String postId) {
     FirebaseFirestore.instance
         .collection('posts')

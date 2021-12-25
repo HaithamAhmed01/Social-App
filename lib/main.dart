@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/social_layout.dart';
 import 'package:social_app/modules/social_login/social_login_screen.dart';
@@ -12,6 +13,7 @@ import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/styles/themes.dart';
+import 'package:splash_screen_view/SplashScreenView.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('on background message');
@@ -97,7 +99,26 @@ class MyApp extends StatelessWidget {
               themeMode: AppCubit.get(context).isDark!
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: startWidget,
+              home: SplashScreenView(
+                navigateRoute: startWidget,
+                duration: 5000,
+                imageSize: 130,
+                imageSrc: "assets/images/s.png",
+                text: "Social App",
+                textType: TextType.ColorizeAnimationText,
+                textStyle: TextStyle(
+                  fontSize: 40.0,
+                ),
+                colors: [
+                  Colors.red,
+                  Colors.deepOrange,
+                  Colors.yellow,
+                  Colors.redAccent,
+                ],
+                backgroundColor: AppCubit.get(context).isDark!
+                    ? HexColor('333739')
+                    : Colors.white,
+              ),
             );
           },
         ));

@@ -77,9 +77,11 @@ class SocialLayout extends StatelessWidget {
                         ),
                       ),
                     )
-                  : AdaptiveIndicator(
-                      os: getOS(),
-                    ),
+                  : Center(
+                    child: AdaptiveIndicator(
+                        os: getOS(),
+                      ),
+                  ),
               SizedBox(
                 width: 5,
               ),
@@ -112,7 +114,7 @@ class SocialLayout extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  IconBroken.User1,
+                  IconBroken.Location,
                 ),
                 label: 'Users',
               ),
