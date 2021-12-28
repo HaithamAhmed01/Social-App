@@ -291,7 +291,7 @@ class SocialCubit extends Cubit<SocialStates> {
     });
     return completer.future.then<void>((_) {
       FirebaseFirestore.instance.collection('posts').get().then((value) {
-        posts = [];
+        // posts = [];
         value.docs.forEach((element) {
           element.reference.collection('likes').get().then((value) {
             likes.add(value.docs.length);
